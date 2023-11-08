@@ -10,15 +10,15 @@ class HBNBCommand(cmd.Cmd):
     use_rawinput = False
 
     def do_quit(self, line):
-        '''Quit command to exit the program'''
+        '''Quit command to exit the program\n'''
         return True
 
     def do_EOF(self, line):
-        '''EOF to exit the program'''
+        '''EOF to exit the program\n'''
         return True
 
     def emptyline(self):
-        '''What happens when pressing enter'''
+        '''What happens when pressing enter\n'''
         return False
 
 
