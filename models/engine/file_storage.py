@@ -2,6 +2,8 @@
 '''a class FileStorage that serializes instances to a JSON file
 and deserializes JSON file to instances'''
 import json
+import datetime
+
 
 class FileStorage:
     '''serializes instances to a JSON file and deserializes
@@ -22,7 +24,7 @@ class FileStorage:
 
     def new(self, obj):
         '''sets in __objects the obj with key <obj class name>.id'''
-        key = f'<{type(self).__name__}>.{str(obj.id)}'
+        key = f'<{obj.__class__.__name__}>.{str(obj.id)}'
         FileStorage.__objects[key] = obj
 
     def save(self):
@@ -33,17 +35,17 @@ class FileStorage:
         }
         with open(FileStorage.__file_path, 'w') as file:
             json.dump(objects, file)
-        
 
     def reload(self):
         '''deserializes the JSON file to __objects (only if the JSON file
         (__file_path) exists ; otherwise, do nothing. If the file doesn’t
         exist, no exception should be raised)'''
         try:
-             with open(FileStorage.__file_path, 'r') as file:
-                 objects = json.load(file)
-        except:
+            with open(FileStorage.__file_path, 'r') as file:
+                objects = json.load(file)
+        except FileNotFoundError:
             return
-        FileStorage.__objects = {
-
-        }
+        from ..base_model import BaseModel
+        for key in objects.keys():
+            ret_obj = BaseModel(objects[key])
+            self.new(ret_obj)
