@@ -47,5 +47,5 @@ class FileStorage:
             return
         from ..base_model import BaseModel
         for key in objects.keys():
-            ret_obj = BaseModel(objects[key])
+            ret_obj = BaseModel(**objects[key])
             self.new(ret_obj)
