@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 '''contains the entry point of the command interpreter'''
 import cmd
-from models.base_model import BaseModel, storage 
+from models.base_model import BaseModel, storage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
             print('** class name missing **')
             return
         if not (args[0] in globals() and callable(globals()[args[0]])):
-            print("** class doesn't exist *")
+            print("** class doesn't exist **")
             return
         obj = globals()[args[0]]()
         obj.save()
@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd):
             print('** class name missing **')
             return
         if not (args[0] in globals() and callable(globals()[args[0]])):
-            print("** class doesn't exist *")
+            print("** class doesn't exist **")
             return
         if len(args) < 2:
             print('** instance id missing **')
@@ -61,7 +61,7 @@ class HBNBCommand(cmd.Cmd):
             print('** class name missing **')
             return
         if not (args[0] in globals() and callable(globals()[args[0]])):
-            print("** class doesn't exist *")
+            print("** class doesn't exist **")
             return
         if len(args) < 2:
             print('** instance id missing **')
@@ -78,11 +78,48 @@ class HBNBCommand(cmd.Cmd):
         on the class name'''
 
         args = line.split()
-        if args and not (args[0] in globals() and callable(globals()[args[0]])):
-            print("** class doesn't exist *")
+        if (
+                args and not (
+                    args[0] in globals() and callable(globals()[args[0]])
+                    )
+                ):
+            print("** class doesn't exist **")
             return
         print([str(obj) for obj in storage.all().values()])
 
-        
+    def do_update(self, line):
+        ''' Updates an instance based on
+        the class name and id'''
+        attr_value = ''
+        args = line.split('"')
+        if len(args) < 2:
+            args = line.split()
+        else:
+            attr_value = args[1]
+            args = args[0]
+            args = args.split()
+        if not args:
+            print('** class name missing **')
+            return
+        if not (args[0] in globals() and callable(globals()[args[0]])):
+            print("** class doesn't exist **")
+            return
+        if len(args) < 2:
+            print('** instance id missing **')
+            return
+        if len(args) < 3:
+            print('** attribute name missing **')
+            return
+        if not attr_value:
+            print('** value missing **')
+            return
+        for key in storage.all().keys():
+            if storage.all()[key].id == args[1]:
+                setattr(storage.all()[key], str(args[2]), str(attr_value))
+                storage.save()
+                return
+        print('** no instance found **')
+
+
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
