@@ -133,8 +133,10 @@ class HBNBCommand(cmd.Cmd):
         if not (len(args) == 2 and args[1] == 'all()'):
             return
         if args[0] in globals():
-            print([str(obj) for obj in storage.all().values() if obj.__class__.__name__ == args[0]])
-
+            print(
+                    [str(obj) for obj in storage.all().values()
+                        if obj.__class__.__name__ == args[0]]
+                    )
 
 
 if __name__ == '__main__':
