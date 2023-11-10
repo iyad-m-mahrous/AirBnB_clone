@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 '''contains the entry point of the command interpreter'''
 import cmd
-from models.base_model import BaseModel, storage
+from models.user import User
+from models.base_model import BaseModel
+from models import storage
 
 
 class HBNBCommand(cmd.Cmd):

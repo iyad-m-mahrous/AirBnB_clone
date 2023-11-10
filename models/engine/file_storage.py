@@ -2,7 +2,8 @@
 '''a class FileStorage that serializes instances to a JSON file
 and deserializes JSON file to instances'''
 import json
-import datetime
+from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -45,7 +46,7 @@ class FileStorage:
                 objects = json.load(file)
         except FileNotFoundError:
             return
-        from ..base_model import BaseModel
         for key in objects.keys():
-            ret_obj = BaseModel(**objects[key])
+            cls = objects[key]['__class__']
+            ret_obj = eval(cls)(**objects[key])
             self.new(ret_obj)
