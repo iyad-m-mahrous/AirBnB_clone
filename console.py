@@ -130,13 +130,19 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         '''Handling other commands'''
         args = line.split('.')
-        if not (len(args) == 2 and args[1] == 'all()'):
+        if not (len(args) == 2):
             return
         if args[0] in globals():
-            print(
-                    [str(obj) for obj in storage.all().values()
-                        if obj.__class__.__name__ == args[0]]
-                    )
+            if args[1] == 'all()':
+                print(
+                        [str(obj) for obj in storage.all().values()
+                            if obj.__class__.__name__ == args[0]]
+                        )
+            if args[1] == 'count()':
+                print(
+                        sum(obj.__class__.__name__ == args[0]
+                            for obj in storage.all().values())
+                        )
 
 
 if __name__ == '__main__':
