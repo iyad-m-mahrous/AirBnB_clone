@@ -143,6 +143,12 @@ class HBNBCommand(cmd.Cmd):
                         sum(obj.__class__.__name__ == args[0]
                             for obj in storage.all().values())
                         )
+            if (args[1].startswith('show("') and
+                    args[1].endswith('")')):
+                start_index = args[1].find('("')
+                end_index = args[1].find('")')
+                obj_id = args[1][start_index + 2:end_index]
+                self.do_show(f'{args[0]} {obj_id}')
 
 
 if __name__ == '__main__':
