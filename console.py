@@ -170,13 +170,28 @@ class HBNBCommand(cmd.Cmd):
                 self.do_destroy(f'{args[0]} {obj_id}')
             if (args[1].startswith('update("') and
                     args[len(args)-1].endswith(')')):
-                pattern = r'(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
-                        '(.*?)\",\s*\"?(.*?)\"?\)'
+                pattern = r'(.*?)\.(.*?)\(\"(.*?)\"'
                 match = re.findall(pattern, line)
-                self.do_update(
-                        f'{match[0][0]} {match[0][2]} '
-                        f'{match[0][3]} {match[0][4]}'
-                        )
+                idx1 = line.find('{')
+                idx2 = line.find('}')
+                if (idx1 > 0 and idx2 > 0):
+                    elements = line[idx1 + 1:idx2]
+                    pattern = r'[^\s\'\",:]+'
+                    match2 = re.findall(pattern, elements)
+                    num = len(match2) / 2
+                    for i in range(int(num)):
+                        self.do_update(
+                                f'{match[0][0]} {match[0][2]} '
+                                f'{match2[i*2]} {match2[i*2+1]}'
+                                )
+                else:
+                    pattern = r'(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
+                            '(.*?)\",\s*\"?(.*?)\"?\)'
+                    match = re.findall(pattern, line)
+                    self.do_update(
+                            f'{match[0][0]} {match[0][2]} '
+                            f'{match[0][3]} {match[0][4]}'
+                            )
 
 
 if __name__ == '__main__':
