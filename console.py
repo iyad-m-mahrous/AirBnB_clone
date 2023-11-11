@@ -9,6 +9,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models import storage
+import re
 
 
 class HBNBCommand(cmd.Cmd):
@@ -55,7 +56,8 @@ class HBNBCommand(cmd.Cmd):
             print('** instance id missing **')
             return
         for key in storage.all().keys():
-            if storage.all()[key].id == args[1]:
+            if (storage.all()[key].id == args[1] and
+                    storage.all()[key].__class__.__name__ == args[0]):
                 print(storage.all()[key])
                 return
         print('** no instance found **')
@@ -74,7 +76,8 @@ class HBNBCommand(cmd.Cmd):
             print('** instance id missing **')
             return
         for key in storage.all().keys():
-            if storage.all()[key].id == args[1]:
+            if (storage.all()[key].id == args[1] and
+                    storage.all()[key].__class__.__name__ == args[0]):
                 del(storage.all()[key])
                 storage.save()
                 return
@@ -92,19 +95,18 @@ class HBNBCommand(cmd.Cmd):
                 ):
             print("** class doesn't exist **")
             return
-        print([str(obj) for obj in storage.all().values()])
+        if args and args[0]:
+            print(
+                    [str(obj) for obj in storage.all().values()
+                        if obj.__class__.__name__ == args[0]]
+                    )
+        else:
+            print([str(obj) for obj in storage.all().values()])
 
     def do_update(self, line):
         ''' Updates an instance based on
         the class name and id'''
-        attr_value = ''
-        args = line.split('"')
-        if len(args) < 2:
-            args = line.split()
-        else:
-            attr_value = args[1]
-            args = args[0]
-            args = args.split()
+        args = line.split()
         if not args:
             print('** class name missing **')
             return
@@ -117,12 +119,26 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 3:
             print('** attribute name missing **')
             return
-        if not attr_value:
+        if len(args) < 4:
             print('** value missing **')
             return
+        is_str = 1
+        try:
+            args[3] = int(args[3])
+            is_str = 0
+        except Exception as e:
+            try:
+                args[3] = float(args[3])
+                is_str = 0
+            except Exception as e:
+                pass
         for key in storage.all().keys():
-            if storage.all()[key].id == args[1]:
-                setattr(storage.all()[key], str(args[2]), str(attr_value))
+            if (storage.all()[key].id == args[1] and
+                    storage.all()[key].__class__.__name__ == args[0]):
+                if (is_str):
+                    setattr(storage.all()[key], str(args[2]), str(args[3]))
+                else:
+                    setattr(storage.all()[key], str(args[2]), args[3])
                 storage.save()
                 return
         print('** no instance found **')
@@ -149,6 +165,20 @@ class HBNBCommand(cmd.Cmd):
                 end_index = args[1].find('")')
                 obj_id = args[1][start_index + 2:end_index]
                 self.do_show(f'{args[0]} {obj_id}')
+            if (args[1].startswith('destroy("') and
+                    args[1].endswith('")')):
+                start_index = args[1].find('("')
+                end_index = args[1].find('")')
+                obj_id = args[1][start_index + 2:end_index]
+                self.do_destroy(f'{args[0]} {obj_id}')
+            if (args[1].startswith('update("') and
+                    args[1].endswith(')')):
+                pattern = r'(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
+                           '(.*?)\",\s*(\".*?\"|[\d\.?]*)\)'
+                match = re.findall(pattern, line)
+                self.do_update(
+                        f'{match[0][0]} {match[0][2]} {match[0][3]} {match[0][4]}'
+                        )
 
 
 if __name__ == '__main__':
