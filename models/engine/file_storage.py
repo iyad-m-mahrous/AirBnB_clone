@@ -21,7 +21,7 @@ class FileStorage:
             <class name>.id (ex: to store a BaseModel object with id=12121212,
             the key will be BaseModel.12121212)
     '''
-    __file_path = 'storage.json'
+    __file_path = 'file.json'
     __objects = {}
 
     def all(self):
@@ -30,7 +30,7 @@ class FileStorage:
 
     def new(self, obj):
         '''sets in __objects the obj with key <obj class name>.id'''
-        key = f'<{obj.__class__.__name__}>.{str(obj.id)}'
+        key = f'{obj.__class__.__name__}.{str(obj.id)}'
         FileStorage.__objects[key] = obj
 
     def save(self):
