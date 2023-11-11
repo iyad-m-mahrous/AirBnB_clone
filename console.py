@@ -173,11 +173,12 @@ class HBNBCommand(cmd.Cmd):
                 self.do_destroy(f'{args[0]} {obj_id}')
             if (args[1].startswith('update("') and
                     args[1].endswith(')')):
-                pattern = r'(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
-                           '(.*?)\",\s*(\".*?\"|[\d\.?]*)\)'
+                pattern = r'''(.*?)\.(.*?)\(\"(.*?)\",\s*\"
+                (.*?)\",\s*(\".*?\"|[\d\.?]*)\)'''
                 match = re.findall(pattern, line)
                 self.do_update(
-                        f'{match[0][0]} {match[0][2]} {match[0][3]} {match[0][4]}'
+                        f'{match[0][0]} {match[0][2]} '
+                        f'{match[0][3]} {match[0][4]}'
                         )
 
 
