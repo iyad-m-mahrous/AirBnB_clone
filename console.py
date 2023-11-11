@@ -135,10 +135,7 @@ class HBNBCommand(cmd.Cmd):
         for key in storage.all().keys():
             if (storage.all()[key].id == args[1] and
                     storage.all()[key].__class__.__name__ == args[0]):
-                if (is_str):
-                    setattr(storage.all()[key], str(args[2]), str(args[3]))
-                else:
-                    setattr(storage.all()[key], str(args[2]), args[3])
+                setattr(storage.all()[key], str(args[2]), args[3])
                 storage.save()
                 return
         print('** no instance found **')
@@ -146,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
     def default(self, line):
         '''Handling other commands'''
         args = line.split('.')
-        if not (len(args) == 2):
+        if not (len(args) > 1):
             return
         if args[0] in globals():
             if args[1] == 'all()':
@@ -172,9 +169,9 @@ class HBNBCommand(cmd.Cmd):
                 obj_id = args[1][start_index + 2:end_index]
                 self.do_destroy(f'{args[0]} {obj_id}')
             if (args[1].startswith('update("') and
-                    args[1].endswith(')')):
-                pattern = r'''(.*?)\.(.*?)\(\"(.*?)\",\s*\"
-                (.*?)\",\s*(\".*?\"|[\d\.?]*)\)'''
+                    args[len(args)-1].endswith(')')):
+                pattern = r'(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
+                        '(.*?)\",\s*\"?(.*?)\"?\)'
                 match = re.findall(pattern, line)
                 self.do_update(
                         f'{match[0][0]} {match[0][2]} '
