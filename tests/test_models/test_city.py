@@ -1,15 +1,8 @@
 #!/usr/bin/python3
-'''Write a class User that inherits from BaseModel'''
-from models.base_model import BaseModel
+"""Test Class"""
+import unittest
 
 
-class City(BaseModel):
-    '''City Class
-
-    Attributes:
-        Public class attributes:
-        state_id: string - empty string: it will be the State.id
-        name: string - empty string
-    '''
-    state_id = ''
-    name = ''
+class TestCity(unittest.TestCase):
+    """Test Class"""
+    pass
