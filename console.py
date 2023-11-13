@@ -187,7 +187,8 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     characters_to_replace = ['"', '\'', '(', ')', ',']
                     for char in characters_to_replace:
-                        input_string = line.replace(char, ' ')
+                        line = line.replace(char, ' ')
+                    line = line.replace('.u', ' u')
                     match = input_string.split()
                     self.do_update(
                             f'{match[0]} {match[2]} '
