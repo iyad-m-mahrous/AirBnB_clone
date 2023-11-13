@@ -190,8 +190,8 @@ class HBNBCommand(cmd.Cmd):
                         input_string = line.replace(char, ' ')
                     match = input_string.split()
                     self.do_update(
-                            f'{match[0][0]} {match[0][2]} '
-                            f'{match[0][3]} {match[0][4]}'
+                            f'{match[0]} {match[2]} '
+                            f'{match[3]} {match[4]}'
                             )
 
 
