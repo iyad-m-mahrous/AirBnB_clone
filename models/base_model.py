@@ -25,7 +25,7 @@ class BaseModel:
             self.updated_at = self.created_at
             models.storage.new(self)
         else:
-            del(kwargs['__class__'])
+            del kwargs['__class__']
             kwargs['created_at'] = \
                 datetime.datetime.fromisoformat(kwargs['created_at'])
             kwargs['updated_at'] = \

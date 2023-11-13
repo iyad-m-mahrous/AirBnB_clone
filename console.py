@@ -78,7 +78,7 @@ class HBNBCommand(cmd.Cmd):
         for key in storage.all().keys():
             if (storage.all()[key].id == args[1] and
                     storage.all()[key].__class__.__name__ == args[0]):
-                del(storage.all()[key])
+                del storage.all()[key]
                 storage.save()
                 return
         print('** no instance found **')
