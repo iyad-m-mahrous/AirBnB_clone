@@ -185,9 +185,10 @@ class HBNBCommand(cmd.Cmd):
                                 f'{match2[i*2]} {match2[i*2+1]}'
                                 )
                 else:
-                    pattern = r"(.*?)\.(.*?)\(\"(.*?)\",\s*\"" \
-                            "(.*?)\",\s*\"?(.*?)\"?\)"
-                    match = re.findall(pattern, line)
+                    characters_to_replace = ['"', '\'', '(', ')', ',']
+                    for char in characters_to_replace:
+                        input_string = line.replace(char, ' ')
+                    match = input_string.split()
                     self.do_update(
                             f'{match[0][0]} {match[0][2]} '
                             f'{match[0][3]} {match[0][4]}'
