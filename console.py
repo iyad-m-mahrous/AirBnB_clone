@@ -189,7 +189,7 @@ class HBNBCommand(cmd.Cmd):
                     for char in characters_to_replace:
                         line = line.replace(char, ' ')
                     line = line.replace('.u', ' u')
-                    match = input_string.split()
+                    match = line.split()
                     self.do_update(
                             f'{match[0]} {match[2]} '
                             f'{match[3]} {match[4]}'
