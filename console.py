@@ -185,8 +185,8 @@ class HBNBCommand(cmd.Cmd):
                                 f'{match2[i*2]} {match2[i*2+1]}'
                                 )
                 else:
-                    pattern = r"(.*?)\.(.*?)\(\"(.*?)\",\s*\"' \
-                            '(.*?)\",\s*\"?(.*?)\"?\)"
+                    pattern = r"(.*?)\.(.*?)\(\"(.*?)\",\s*\"" \
+                            "(.*?)\",\s*\"?(.*?)\"?\)"
                     match = re.findall(pattern, line)
                     self.do_update(
                             f'{match[0][0]} {match[0][2]} '
