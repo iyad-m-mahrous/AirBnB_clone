@@ -28,7 +28,7 @@ button:hover {
 .amenities {
     box-sizing: border-box;
     position: relative;
-    flex: 1;
+    flex: 0.3;
     padding: 30px;
     height: 100%;
     width: 25%;
@@ -57,8 +57,8 @@ button:hover {
     list-style-type: none;
 }
 
-.popover li {
-    margin-left: 40px;
+.locations .popover li {
+    margin-left: 20px;
 }
 
 .popover {
@@ -75,17 +75,21 @@ button:hover {
     display: none;
 }
 
-.popover h2 {
+.popover .amenities h2 {
     font-size: 16px;
 }
 
-.amenities:hover .popover,
 .locations:hover .popover {
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
-.popover ul li {
+.amenities:hover .popover {
+    display: flex;
+    flex-direction: column;
+}
+
+.popover .locations ul li {
     padding: 4px 0;
 }
