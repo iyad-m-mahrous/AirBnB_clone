@@ -81,12 +81,14 @@ button:hover {
 
 .locations:hover .popover {
     display: flex;
+    z-index: 100;
     flex-direction: column;
     gap: 30px;
 }
 
 .amenities:hover .popover {
     display: flex;
+    z-index: 100;
     flex-direction: column;
 }
 
